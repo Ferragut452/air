@@ -15,13 +15,12 @@ const posts = {
     }
   },
   actions: {
-    getPosts({ commit }, userId) {
+    getPosts({ commit }) {
         return $http
           .get(
             `/posts`
           )
           .then((res) => {
-            console.log('posts :>> ', res.data);
             commit("setPosts", res.data.slice(0, 10));
             return res.data;
           });

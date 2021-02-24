@@ -21,7 +21,6 @@ const users = {
             `/users`
           )
           .then((res) => {
-            console.log('users :>> ', res.data);
             commit("setUsers", res.data);
             return res.data;
           });

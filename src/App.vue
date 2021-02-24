@@ -1,36 +1,35 @@
 <template>
   <div id="app">
-    <div class="main-nav">
-      <router-link to="/login">Login</router-link>
+    <div v-if="isLoggedIn" class="main-nav">
       <router-link to="/">Home</router-link>
       <router-link to="/table">Table</router-link>
     </div>
+    <button class="logout" v-if="isLoggedIn" v-on:click="logout()">
+      Logout
+    </button>
     <router-view />
   </div>
 </template>
 
+<script>
+import { mapState, mapMutations } from "vuex";
+
+export default {
+  name: "App",
+  computed: {
+    ...mapState("auth", ["isLoggedIn"]),
+  },
+  methods: {
+    ...mapMutations("auth", ["setAuth"]),
+    logout() {
+      this.setAuth(false);
+      this.$router.push({ name: "Login" });
+    },
+  },
+};
+</script>
+
 <style lang="scss">
-// #app {
-//   font-family: Avenir, Helvetica, Arial, sans-serif;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   text-align: center;
-//   color: #2c3e50;
-// }
-
-// #nav {
-//   padding: 30px;
-
-//   a {
-//     font-weight: bold;
-//     color: #2c3e50;
-
-//     &.router-link-exact-active {
-//       color: #42b983;
-//     }
-//   }
-// }
-
 * {
   box-sizing: border-box;
 }
@@ -75,6 +74,7 @@ li {
   max-width: 1180px;
   padding-left: 40px;
   padding-right: 40px;
+  position: relative;
 }
 
 .main-nav {
@@ -91,5 +91,11 @@ li {
     font-weight: bold;
     line-height: 20px;
   }
+}
+
+.logout {
+  position: absolute;
+  left: 40px;
+  top: 0;
 }
 </style>

@@ -60,7 +60,25 @@ export default {
         });
       }
 
-      return list;
+      function toString(o) {
+        Object.keys(o).forEach((k) => {
+          if (typeof o[k] === "object") {
+            return toString(o[k]);
+          }
+
+          o[k] = "" + o[k];
+        });
+
+        return o;
+      }
+
+      let strings = toString(list);
+
+      return strings.filter((object) =>
+        Object.values(object).some((i) => {
+          return i.includes(this.searchQuery);
+        })
+      );
     },
   },
   methods: {
